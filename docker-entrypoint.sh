@@ -9,7 +9,7 @@ fi
 OSRM_DATA_PATH=${OSRM_DATA_PATH:="/osrm-data"}
 OSRM_DATA_LABEL=${OSRM_DATA_LABEL:="data"}
 OSRM_GRAPH_PROFILE=${OSRM_GRAPH_PROFILE:="car"}
-OSRM_PBF_URL=${OSRM_PBF_URL:="http://download.geofabrik.de/asia/maldives-latest.osm.pbf"}
+OSRM_PBF_URL=${OSRM_PBF_URL:=""}
 # Google Storage variables
 OSRM_SA_KEY_PATH=${OSRM_SA_KEY_PATH:=""}
 OSRM_PROJECT_ID=${OSRM_PROJECT_ID:=""}

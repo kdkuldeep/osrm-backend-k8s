@@ -4,9 +4,9 @@ metadata:
   name: osrm-car
 spec:
   ports:
-  - port: 80
-    targetPort: 5000
-    protocol: TCP
+    - port: 80
+      targetPort: 5000
+      protocol: TCP
   selector:
     app: osrm-car
 ---
@@ -23,32 +23,32 @@ spec:
         track: stable
     spec:
       volumes:
-      - name: osrm-secret-volume
-        secret:
-          secretName: osrm-storage-secret
-      containers:
-      - name: osrm-backend-k8s
-        image: peterevans/osrm-backend-k8s:latest
-        env:
-        - name: OSRM_MODE
-          value: RESTORE
-        - name: OSRM_DATA_LABEL
-          value: maldives-car-20161209
-        - name: OSRM_SA_KEY_PATH
-          value: "/etc/osrm-secret-volume/service-account-key.json"
-        - name: OSRM_PROJECT_ID
-          value: my-project
-        - name: OSRM_GS_BUCKET
-          value: "gs://my-bucket"
-        volumeMounts:
         - name: osrm-secret-volume
-          readOnly: true
-          mountPath: /etc/osrm-secret-volume
-        ports:
-        - containerPort: 5000
-        readinessProbe:
-          httpGet:
-            path: /nearest/v1/healthz/0,0
-            port: 5000
-          initialDelaySeconds: 30
-          timeoutSeconds: 1
+          secret:
+            secretName: osrm-storage-secret
+      containers:
+        - name: osrm-backend-k8s
+          image: peterevans/osrm-backend-k8s:latest
+          env:
+            - name: OSRM_MODE
+              value: RESTORE
+            - name: OSRM_DATA_LABEL
+              value: india-latest
+            - name: OSRM_SA_KEY_PATH
+              value: "/etc/osrm-secret-volume/service-account-key.json"
+            - name: OSRM_PROJECT_ID
+              value: fleeter-1
+            - name: OSRM_GS_BUCKET
+              value: "gs://us.artifacts.fleeter-1.appspot.com/maps"
+          volumeMounts:
+            - name: osrm-secret-volume
+              readOnly: true
+              mountPath: /etc/osrm-secret-volume
+          ports:
+            - containerPort: 5000
+          readinessProbe:
+            httpGet:
+              path: /nearest/v1/healthz/0,0
+              port: 5000
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
